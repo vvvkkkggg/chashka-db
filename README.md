@@ -10,11 +10,11 @@
 
 ### Концептуальная модель
 
-![concept](/draw.io/concept.drawio.svg)
+![concept](/draw.io/concept.png)
 
 ### Логическая модель
 
-![logic](/draw.io/logic.drawio.svg)
+![logic](/draw.io/logic.png)
 
 #### 3НФ
 
