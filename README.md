@@ -6,18 +6,17 @@
     - [3НФ](#3нф)
     - [SCD4](#scd4)
 - [Физическая модель](#физическая-модель)
-    - [Кофейни](#кофейни)
-    - [Бариста](#бариста)
-    - [Владелец](#владелец)
-    - [Товар](#товар)
-    - [Чек](#чек)
-    - [Пользователь](#пользователь)
-    - [Награда](#награда)
-    - [Награда пользователя](#награда-пользователя)
-    - [Кофейня пользователя](#кофейня-пользователя)
-    - [Кофейня владельца](#кофейня-владельца)
-    - [Товар в чеке](#товар-в-чеке)
-
+    - [Coffee shop](#coffee-shop)
+    - [Barista](#barista)
+    - [Owner](#owner)
+    - [Item](#item)
+    - [Receipt](#receipt)
+    - [Customer](#customer)
+    - [Reward](#reward)
+    - [Customer reward](#customer-reward)
+    - [Coffee shop customer](#coffee-shop-customer)
+    - [Coffee shop owner](#coffee-shop-owner)
+    - [Receipt item](#receipt-item)
 
 ---
 
@@ -51,108 +50,107 @@
 
 ### Физическая модель 
 
-#### Coffeeshop
+#### Coffee shop
 
 | PK/FK |   Название   |           Описание            | Тип данных   |    Ограничения    |
 |-------|---------------|------------------------------|--------------|-------------------|
-| PK    |   SHOP_ID     | Идентификатор кофейни        | SERIAL       | PRIMARY KEY       |
-|       |   NAME        | Название кофейни             | VARCHAR(255) | NOT NULL          |
-|       |   INN         | ИНН (Идентификационный номер налогоплательщика) | VARCHAR(10)  | NOT NULL |
-|       |   KKT         | Регистрационный номер кассы   | VARCHAR(16)  | NOT NULL          |
-|       |   IMAGE_URL   | URL изображения кофейни      | VARCHAR(255) |                   |
-|       |   ADDRESS     | Адрес кофейни                | TEXT         | NOT NULL          |
+| PK    | coffee_shop_id| Идентификатор кофейни        | SERIAL       | PRIMARY KEY       |
+|       |     name      | Название кофейни             | VARCHAR(255) | NOT NULL          |
+|       |     inn       | ИНН (Идентификационный номер налогоплательщика) | VARCHAR(10)  | NOT NULL |
+|       |     kkt       | Регистрационный номер кассы   | VARCHAR(16)  | UNIQUE, NOT NULL  |
+|       | image_url     | URL изображения кофейни      | VARCHAR(255) |                   |
+|       |   address     | Адрес кофейни                | TEXT         | NOT NULL          |
 
 
-#### Бариста
+#### Barista
 
 | PK/FK |   Название   |           Описание            | Тип данных | Ограничения                    |
 |-------|---------------|------------------------------|------------|--------------------------------|
-| PK    |   WORKER_ID   | Идентификатор баристы        | SERIAL     | PRIMARY KEY                    |
-| FK    |   SHOP_ID     | Идентификатор кофейни (внешний ключ) | INTEGER | REFERENCES Coffeeshop(SHOP_ID) |
-|       |   NAME        | Имя баристы                  | VARCHAR(255)| NOT NULL                       |
+| PK    | barista_id    | Идентификатор баристы        | SERIAL     | PRIMARY KEY                    |
+| FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ) | INTEGER | REFERENCES coffee_shop(coffee_shop_id) |
+|       |     name      | Имя баристы                  | VARCHAR(255)| NOT NULL                       |
 
 #### Owner
 
 | PK/FK |   Название   |           Описание            | Тип данных |    Ограничения |
 |-------|---------------|------------------------------|------------|---------------|
-| PK    |   OWNER_ID    | Идентификатор владельца      | SERIAL     | PRIMARY KEY   |
-|       |   NAME        | Имя владельца                | VARCHAR(255)| NOT NULL      |
-|       |   PHONE       | Телефон владельца            | VARCHAR(20) | NOT NULL      |
-|       |   EMAIL       | Электронная почта владельца   | VARCHAR(255)|           |
-
+| PK    |   owner_id    | Идентификатор владельца      | SERIAL     | PRIMARY KEY   |
+|       |     name      | Имя владельца                | VARCHAR(255)| NOT NULL      |
+|       |    phone      | Телефон владельца            | VARCHAR(20) | NOT NULL      |
+|       |    email      | Электронная почта владельца   | VARCHAR(255)| CHECK (email ~* '^[A-Za-z0-9._+%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$')              |
 
 #### Item
 
-| PK/FK |   Название   | Описание                           | Тип данных   | Ограничения                    |
-|-------|---------------|------------------------------------|--------------|--------------------------------|
-| PK    |   PRODUCT_ID  | Идентификатор товара               | SERIAL       | PRIMARY KEY                    |
-| FK    |   SHOP_ID     | Идентификатор кофейни (внешний ключ) | INTEGER      | REFERENCES Coffeeshop(SHOP_ID) |
-|       |   NAME        | Название товара                    | VARCHAR(255) | NOT NULL                       |
-|       |   PRICE       | Цена товара в копейках             | INTEGER      | NOT NULL                       |
+| PK/FK |   Название   | Описание                           | Тип данных   | Ограничения                            |
+|-------|---------------|------------------------------------|--------------|----------------------------------------|
+| PK    |  item_id      | Идентификатор товара               | SERIAL       | PRIMARY KEY                            |
+| FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ) | INTEGER      | REFERENCES coffee_shop(coffee_shop_id) |
+|       |     name      | Название товара                    | VARCHAR(255) | NOT NULL                               |
+|       |    price      | Цена товара в копейках             | INTEGER      | NOT NULL, CHECK (price >= 0)                             |
 
 
 #### Receipt
 
-| PK/FK |   Название   | Описание                                  | Тип данных | Ограничения                   |
-|-------|---------------|-------------------------------------------|------------|-------------------------------|
-| PK    |   RECEIPT_ID  | Идентификатор чека                        | SERIAL     | PRIMARY KEY                   |
-| FK    |   USER_ID     | Идентификатор пользователя (внешний ключ) | INTEGER    | REFERENCES User(USER_ID)      |
-| FK    |   SHOP_ID     | Идентификатор кофейни (внешний ключ)      | INTEGER    | REFERENCES Coffeeshop(SHOP_ID) |
-|       |   TOTAL       | Общая сумма чека в копейках                  | INTEGER    | NOT NULL                      |
-|       |   QR_DATA     | Содержимое QR-кода                        | TEXT       | NOT NULL                      |
-|       |   TIMESTAMP   | Дата покупки                              | TIMESTAMP  | NOT NULL                      |
+| PK/FK |   Название   | Описание                                  | Тип данных | Ограничения                            |
+|-------|---------------|-------------------------------------------|------------|----------------------------------------|
+| PK    | receipt_id    | Идентификатор чека                        | SERIAL     | PRIMARY KEY                            |
+| FK    | customer_id   | Идентификатор пользователя (внешний ключ) | INTEGER    | REFERENCES customer(customer_id)       |
+| FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ)      | INTEGER    | REFERENCES coffee_shop(coffee_shop_id) |
+|       |    total      | Общая сумма чека в копейках                  | INTEGER    | NOT NULL, CHECK (total >= 0)                             |
+|       |  qr_data      | Содержимое QR-кода                        | TEXT       | NOT NULL                               |
+|       |  created      | Дата покупки                              | TIMESTAMP  | NOT NULL                               |
+|       | timestamp     | Временная метка создания чека             | TIMESTAMP  | DEFAULT CURRENT_TIMESTAMP              |
 
 
-#### User
+#### Customer
 
 | PK/FK |   Название   |           Описание            | Тип данных |    Ограничения    |
 |-------|---------------|------------------------------|------------|-------------------|
-| PK    |   USER_ID     | Идентификатор пользователя    | SERIAL     | PRIMARY KEY       |
-|       |   NAME        | Имя пользователя              | VARCHAR(255)| NOT NULL          |
-|       |   PHONE       | Номер телефона пользователя   | VARCHAR(20) | NOT NULL          |
+| PK    |  customer_id  | Идентификатор пользователя    | SERIAL     | PRIMARY KEY       |
+|       |     name      | Имя пользователя              | VARCHAR(255)| NOT NULL          |
+|       |    phone      | Номер телефона пользователя   | VARCHAR(20) | NOT NULL          |
 
 
 #### Reward
 
-| PK/FK |   Название   |           Описание            | Тип данных   | Ограничения                    |
-|-------|---------------|------------------------------|--------------|--------------------------------|
-| PK    |   REWARD_ID   | Идентификатор награды         | SERIAL       | PRIMARY KEY                    |
-| FK    |   SHOP_ID     | Идентификатор кофейни (внешний ключ) | INTEGER      | REFERENCES Coffeeshop(SHOP_ID) |
-|       |   NAME        | Название награды             | VARCHAR(255) | NOT NULL                       |
-|       |   PRICE       | Стоимость награды            | INTEGER      | NOT NULL                       |
-|       |   IMAGE_URL   | URL изображения награды       | VARCHAR(255) |                                |
+| PK/FK |   Название   |           Описание            | Тип данных   | Ограничения                           |
+|-------|---------------|------------------------------|--------------|---------------------------------------|
+| PK    |  reward_id    | Идентификатор награды         | SERIAL       | PRIMARY KEY                           |
+| FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ) | INTEGER      | REFERENCES coffee_shop(coffee_shop_id) |
+|       |     name      | Название награды             | VARCHAR(255) | NOT NULL                              |
+|       |    price      | Стоимость награды            | INTEGER      | NOT NULL, CHECK (price >= 0)                            |
+|       | image_url     | URL изображения награды       | VARCHAR(255) |                                       |
 
 
-#### User-Reward
+#### Customer reward
 
-| PK/FK |   Название   |           Описание            | Тип данных | Ограничения                  |
-|-------|---------------|------------------------------|------------|------------------------------|
-| FK    |   USER_ID     | Идентификатор пользователя (внешний ключ) | INTEGER | REFERENCES User(USER_ID)     |
-| FK    |   REWARD_ID   | Идентификатор награды (внешний ключ) | INTEGER | REFERENCES Reward(REWARD_ID) |
-|       |   TIMESTAMP   | Временная метка получения награды | TIMESTAMP  | DEFAULT CURRENT_TIMESTAMP    |
-
-
-#### User-Coffeeshop
-
-| PK/FK |   Название   | Описание                                          | Тип данных | Ограничения                    |
-|-------|---------------|---------------------------------------------------|------------|--------------------------------|
-| FK    |   USER_ID     | Идентификатор пользователя (внешний ключ)         | INTEGER | REFERENCES User(USER_ID)       |
-| FK    |   SHOP_ID     | Идентификатор кофейни (внешний ключ)              | INTEGER | REFERENCES Coffeeshop(SHOP_ID) |
-|       |   BONUSES     | Накопленные бонусы пользователя в данной кофейне  | INTEGER    | DEFAULT 0                      |
+| PK/FK |   Название   |           Описание            | Тип данных | Ограничения                      |
+|-------|---------------|------------------------------|------------|----------------------------------|
+| FK    |  customer_id  | Идентификатор пользователя (внешний ключ) | INTEGER | REFERENCES customer(customer_id) |
+| FK    |  reward_id    | Идентификатор награды (внешний ключ) | INTEGER | REFERENCES reward(reward_id)     |
+|       |  timestamp     | Временная метка получения награды | TIMESTAMP  | DEFAULT CURRENT_TIMESTAMP        |
 
 
-#### Owner-Coffeeshop
+#### Coffee shop customer
+
+| PK/FK |   Название   | Описание                                          | Тип данных | Ограничения                            |
+|-------|---------------|---------------------------------------------------|------------|----------------------------------------|
+| FK    |  customer_id  | Идентификатор пользователя (внешний ключ)         | INTEGER | REFERENCES customer(customer_id)       |
+| FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ)              | INTEGER | REFERENCES coffee_shop(coffee_shop_id) |
+|       |   bonuses     | Накопленные бонусы пользователя в данной кофейне  | INTEGER    | DEFAULT 0, CHECK (bonuses >= 0)        |
+
+
+#### Coffee shop owner
+
+| PK/FK |   Название   |           Описание            | Тип данных | Ограничения                            |
+|-------|---------------|------------------------------|------------|----------------------------------------|
+| FK    |   owner_id    | Идентификатор владельца (внешний ключ) | INTEGER | REFERENCES owner(owner_id)             |
+| FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ) | INTEGER | REFERENCES coffee_shop(coffee_shop_id) |
+
+#### Receipt item
 
 | PK/FK |   Название   |           Описание            | Тип данных | Ограничения                    |
 |-------|---------------|------------------------------|------------|--------------------------------|
-| FK    |   OWNER_ID    | Идентификатор владельца (внешний ключ) | INTEGER | REFERENCES Owner(OWNER_ID)     |
-| FK    |   SHOP_ID     | Идентификатор кофейни (внешний ключ) | INTEGER | REFERENCES Coffeeshop(SHOP_ID) |
-
-
-#### Item_Receipt
-
-| PK/FK |   Название   |           Описание            | Тип данных | Ограничения                    |
-|-------|---------------|------------------------------|------------|--------------------------------|
-| FK    |   PRODUCT_ID  | Идентификатор товара (внешний ключ) | INTEGER | REFERENCES Item(PRODUCT_ID)    |
-| FK    |   RECEIPT_ID  | Идентификатор чека (внешний ключ) | INTEGER | REFERENCES Receipt(RECEIPT_ID) |
-
+| FK    |  item_id      | Идентификатор товара (внешний ключ) | INTEGER | REFERENCES item(item_id)       |
+| FK    |  receipt_id   | Идентификатор чека (внешний ключ) | INTEGER | REFERENCES receipt(receipt_id) |
+|       |  amount       | Количество товара в чеке      | INTEGER    | NOT NULL, CHECK (amount > 0)   |
