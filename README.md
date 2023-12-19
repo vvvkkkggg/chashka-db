@@ -17,7 +17,7 @@
     - [Coffee shop customer](#coffee-shop-customer)
     - [Coffee shop owner](#coffee-shop-owner)
     - [Receipt item](#receipt-item)
-
+- [DDL скрипт для создания БД](#ddl-скрипт-для-создания-бд)
 ---
 
 ### Предметная область
@@ -139,7 +139,6 @@
 | FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ)              | INTEGER | REFERENCES coffee_shop(coffee_shop_id) |
 |       |   bonuses     | Накопленные бонусы пользователя в данной кофейне  | INTEGER    | DEFAULT 0, CHECK (bonuses >= 0)        |
 
-
 #### Coffee shop owner
 
 | PK/FK |   Название   |           Описание            | Тип данных | Ограничения                            |
@@ -154,3 +153,7 @@
 | FK    |  item_id      | Идентификатор товара (внешний ключ) | INTEGER | REFERENCES item(item_id)       |
 | FK    |  receipt_id   | Идентификатор чека (внешний ключ) | INTEGER | REFERENCES receipt(receipt_id) |
 |       |  amount       | Количество товара в чеке      | INTEGER    | NOT NULL, CHECK (amount > 0)   |
+
+### DDL скрипт для создания БД
+
+[DDL скрипт](schema.sql), который создает схему, а также все требуемые таблицы.
