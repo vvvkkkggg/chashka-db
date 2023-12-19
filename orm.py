@@ -2,7 +2,6 @@ import psycopg2
 from sqlalchemy import create_engine
 from secrets import database_token
 
-# Подключение к базе данных с помощью psycopg2
 conn = psycopg2.connect(**database_token)
 
 engine = create_engine('postgresql+psycopg2://your_username:your_password@your_remote_host/your_dbname')
