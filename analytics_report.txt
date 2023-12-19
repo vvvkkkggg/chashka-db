@@ -1,0 +1,1 @@
+(1, 'Coffee Place', '1234567890', 'KKT123456', 'http://example.com/image.jpg', '123 Main Street, City, Country')(3, 'Coffee Place', '1234567891', 'KKT123457', 'http://example.com/image.jpg', '123 Main Street, City, Country')
