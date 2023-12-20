@@ -10,10 +10,10 @@ SELECT * FROM chashka.barista WHERE coffee_shop_id = 1;
 -- update
 UPDATE chashka.barista
 SET coffee_shop_id = 2
-WHERE chashka.barista.barista_id = 0;
+WHERE chashka.barista.name = 'Alexey Kosenko';
 
 -- delete
-DELETE FROM chashka.barista WHERE chashka.barista.barista_id = 1;
+DELETE FROM chashka.barista WHERE chashka.barista.name = 'Alexey Kosenko';
 
 -- create
 INSERT INTO chashka.customer(name, phone)
