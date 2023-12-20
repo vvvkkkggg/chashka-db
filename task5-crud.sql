@@ -17,7 +17,7 @@ DELETE FROM chashka.customer WHERE chashka.customer.name = 'Aleksey Kosenko';
 
 -- create
 INSERT INTO chashka.coffee_shop(name, inn, kkt, image_url, address)
-VALUES ('Chushpan Coffee Roasters', '123412', '12341234', 'https://www.youtube.com/watch?v=dQw4w9WgXcQ', '11 Canal Reach, London');
+VALUES ('Chushpan Coffee Roasters', '123412', '12341234', 'https://www.youtube.com/watch?v=6SDYGdTEaN0', '11 Canal Reach, London');
 
 -- read
 SELECT * FROM chashka.coffee_shop;
