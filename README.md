@@ -139,7 +139,7 @@
 |-------|---------------|------------------------------|------------|--------------------------------|
 | FK    |  item_id      | Идентификатор товара (внешний ключ) | INTEGER | REFERENCES item(item_id)       |
 | FK    |  receipt_id   | Идентификатор чека (внешний ключ) | INTEGER | REFERENCES receipt(receipt_id) |
-|       |  count       | Количество товара в чеке      | INTEGER    | NOT NULL, CHECK (amount > 0)   |
+|       |  quantity       | Количество товара в чеке      | INTEGER    | NOT NULL, CHECK (quantity > 0)   |
 
 ### DDL скрипт для создания БД
 
