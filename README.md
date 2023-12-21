@@ -79,7 +79,8 @@
 | FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ) | INTEGER      | REFERENCES coffee_shop(coffee_shop_id) |
 |       |     name      | Название товара                    | VARCHAR(255) | NOT NULL                               |
 |       |    price      | Цена товара в копейках             | INTEGER      | NOT NULL, CHECK (price >= 0)   
-|       |    saleable      | Индикатор пригодности товара для продажи              | boolean      | DEFAULT FALSE                             |
+|       |    saleable      | Индикатор пригодности товара для продажи              | boolean      | DEFAULT FALSE      |
+|       |    is_reward      | Индикатор награды              | boolean      | DEFAULT FALSE|
 |       | image_url     | URL изображения награды       | VARCHAR(255) |                                       |
 
 
@@ -107,20 +108,12 @@
 |       |    phone      | Номер телефона пользователя   | VARCHAR(20) | NOT NULL          |
 
 
-#### Reward
-
-| PK/FK |   Название   |           Описание            | Тип данных   | Ограничения                           |
-|-------|---------------|------------------------------|--------------|---------------------------------------|
-| PK    |  reward_id    | Идентификатор награды         | SERIAL       | PRIMARY KEY                           |
-| FK    | item_id | Идентификатор товара (внешний ключ) | INTEGER      | REFERENCES item(item_id) |
-
-
 #### Customer reward
 
 | PK/FK |   Название   |           Описание            | Тип данных | Ограничения                      |
 |-------|---------------|------------------------------|------------|----------------------------------|
 | FK    |  customer_id  | Идентификатор пользователя (внешний ключ) | INTEGER | REFERENCES customer(customer_id) |
-| FK    |  reward_id    | Идентификатор награды (внешний ключ) | INTEGER | REFERENCES reward(reward_id)     |
+| FK    |  reward_id    | Идентификатор награды (внешний ключ) | INTEGER | REFERENCES item(item_id)     |
 | PK      |  timestamp     | Временная метка получения награды | TIMESTAMP  | DEFAULT CURRENT_TIMESTAMP        |
 
 
@@ -139,7 +132,7 @@
 |-------|---------------|------------------------------|------------|--------------------------------|
 | FK    |  item_id      | Идентификатор товара (внешний ключ) | INTEGER | REFERENCES item(item_id)       |
 | FK    |  receipt_id   | Идентификатор чека (внешний ключ) | INTEGER | REFERENCES receipt(receipt_id) |
-|       |  count       | Количество товара в чеке      | INTEGER    | NOT NULL, CHECK (amount > 0)   |
+|       |  quantity       | Количество товара в чеке      | INTEGER    | NOT NULL, CHECK (quantity > 0)   |
 
 ### DDL скрипт для создания БД
 
