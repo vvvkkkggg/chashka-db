@@ -79,7 +79,8 @@
 | FK    | coffee_shop_id| Идентификатор кофейни (внешний ключ) | INTEGER      | REFERENCES coffee_shop(coffee_shop_id) |
 |       |     name      | Название товара                    | VARCHAR(255) | NOT NULL                               |
 |       |    price      | Цена товара в копейках             | INTEGER      | NOT NULL, CHECK (price >= 0)   
-|       |    saleable      | Индикатор пригодности товара для продажи              | boolean      | DEFAULT FALSE                             |
+|       |    saleable      | Индикатор пригодности товара для продажи              | boolean      | DEFAULT FALSE      |
+|       |    is_reward      | Индикатор награды              | boolean      | DEFAULT FALSE|
 |       | image_url     | URL изображения награды       | VARCHAR(255) |                                       |
 
 
