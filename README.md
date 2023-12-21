@@ -107,20 +107,12 @@
 |       |    phone      | Номер телефона пользователя   | VARCHAR(20) | NOT NULL          |
 
 
-#### Reward
-
-| PK/FK |   Название   |           Описание            | Тип данных   | Ограничения                           |
-|-------|---------------|------------------------------|--------------|---------------------------------------|
-| PK    |  reward_id    | Идентификатор награды         | SERIAL       | PRIMARY KEY                           |
-| FK    | item_id | Идентификатор товара (внешний ключ) | INTEGER      | REFERENCES item(item_id) |
-
-
 #### Customer reward
 
 | PK/FK |   Название   |           Описание            | Тип данных | Ограничения                      |
 |-------|---------------|------------------------------|------------|----------------------------------|
 | FK    |  customer_id  | Идентификатор пользователя (внешний ключ) | INTEGER | REFERENCES customer(customer_id) |
-| FK    |  reward_id    | Идентификатор награды (внешний ключ) | INTEGER | REFERENCES reward(reward_id)     |
+| FK    |  reward_id    | Идентификатор награды (внешний ключ) | INTEGER | REFERENCES item(item_id)     |
 | PK      |  timestamp     | Временная метка получения награды | TIMESTAMP  | DEFAULT CURRENT_TIMESTAMP        |
 
 

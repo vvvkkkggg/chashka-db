@@ -24,6 +24,7 @@ CREATE TABLE IF NOT EXISTS chashka.item (
     price INTEGER NOT NULL,
     CHECK (price >= 0),
     saleable boolean DEFAULT FALSE,
+    is_reward boolean DEFAULT FALSE,
     image_url VARCHAR(255)
 );
 
@@ -46,14 +47,9 @@ CREATE TABLE IF NOT EXISTS chashka.receipt (
     CHECK (total >= 0)
 );
 
-CREATE TABLE IF NOT EXISTS chashka.reward (
-    reward_id SERIAL PRIMARY KEY,
-    item_id INTEGER REFERENCES chashka.item(item_id) ON DELETE CASCADE
-);
-
 CREATE TABLE IF NOT EXISTS chashka.customer_reward (
     customer_id INTEGER REFERENCES chashka.customer(customer_id) ON DELETE CASCADE,
-    reward_id INTEGER REFERENCES chashka.reward(reward_id) ON DELETE CASCADE,
+    reward_id INTEGER REFERENCES chashka.item(item_id) ON DELETE CASCADE,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (customer_id, timestamp)
 );
