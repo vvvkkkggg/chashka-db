@@ -48,7 +48,7 @@ SELECT SUBSTRING(cs.name, 1, 1) || '***' AS customer_name,
        timestamp
 FROM chashka.customer_reward cs_rw
          JOIN chashka.customer cs ON cs_rw.customer_id = cs.customer_id
-         JOIN chashka.item i ON cs_rw.reward_id = i.item_id;
+         JOIN chashka.item i ON cs_rw.item_id = i.item_id;
 
 CREATE VIEW vw_chashka.coffee_shop_customer AS
 SELECT SUBSTRING(cs.name, 1, 1) || '***' AS customer_name,
