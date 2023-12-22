@@ -113,7 +113,7 @@
 | PK/FK |   Название   |           Описание            | Тип данных | Ограничения                      |
 |-------|---------------|------------------------------|------------|----------------------------------|
 | FK    |  customer_id  | Идентификатор пользователя (внешний ключ) | INTEGER | REFERENCES customer(customer_id) |
-| FK    |  reward_id    | Идентификатор награды (внешний ключ) | INTEGER | REFERENCES item(item_id)     |
+| FK    |  item_id    | Идентификатор продукта (внешний ключ) | INTEGER | REFERENCES item(item_id)     |
 | PK      |  timestamp     | Временная метка получения награды | TIMESTAMP  | DEFAULT CURRENT_TIMESTAMP        |
 
 
