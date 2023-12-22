@@ -7,11 +7,11 @@ conn = psycopg2.connect(**database_token)
 engine = create_engine('postgresql+psycopg2://your_username:your_password@your_remote_host/your_dbname')
 
 # используем файл, сделанный в 5 задании
-with open('crud.sql', 'r') as file:
+with open('task5-crud.sql', 'r') as file:
     sql_queries = file.read()
 
 # используем файл, сделанный в 6 задании
-with open('analytics_queries.sql', 'r') as file:
+with open('task6-queries.sql', 'r') as file:
     analytics_queries = file.read()
 
 result = ''
