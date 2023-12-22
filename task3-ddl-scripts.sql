@@ -28,6 +28,10 @@ CREATE TABLE IF NOT EXISTS chashka.item (
     image_url VARCHAR(255)
 );
 
+CREATE TABLE IF NOT EXISTS chashka.item_scd (
+    history_dttm TIMESTAMP
+) INHERITS (chashka.item);
+
 CREATE TABLE IF NOT EXISTS chashka.customer (
     customer_id SERIAL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -49,7 +53,7 @@ CREATE TABLE IF NOT EXISTS chashka.receipt (
 
 CREATE TABLE IF NOT EXISTS chashka.customer_reward (
     customer_id INTEGER REFERENCES chashka.customer(customer_id) ON DELETE CASCADE,
-    reward_id INTEGER REFERENCES chashka.item(item_id) ON DELETE CASCADE,
+    item_id INTEGER REFERENCES chashka.item(item_id) ON DELETE CASCADE,
     timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (customer_id, timestamp)
 );
